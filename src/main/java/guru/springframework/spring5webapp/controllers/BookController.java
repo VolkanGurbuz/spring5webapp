@@ -1,6 +1,5 @@
 package guru.springframework.spring5webapp.controllers;
 
-
 import guru.springframework.spring5webapp.repositories.BookRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,21 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class BookController {
 
-    private final BookRepository bookRepository;
+  private final BookRepository bookRepository;
 
+  public BookController(BookRepository bookRepository) {
+    this.bookRepository = bookRepository;
+  }
 
-    public BookController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+  @RequestMapping("/books")
+  public String getBooks(Model model) {
 
-    @RequestMapping("/books")
-    public String getBooks(Model model){
+    model.addAttribute("books", bookRepository.findAll());
 
-        //when url works that model we are going to add the attrivute called books and executer book repository which is going to give us a list of books.
-        model.addAttribute("books: ", bookRepository.findAll());
-
-        return "books";
-    }
-
-
+    return "books/list";
+  }
 }
